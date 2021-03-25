@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FragmentNumbersList extends Fragment implements View.OnClickListener {
@@ -24,8 +24,8 @@ public class FragmentNumbersList extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.numbers_list, container, false);
 
         this.recyclerView = view.findViewById(R.id.recycler);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
+        /*this.recyclerView.setLayoutManager(new GridLayoutManager(inflater.getContext(),
+                getResources().getInteger(R.integer.recycler_span_count)));*/
 
         if (this.numbersListAdapter == null) {
             if (savedInstanceState != null) {

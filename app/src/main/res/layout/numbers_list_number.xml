@@ -6,4 +6,4 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/number_min_width"
     android:minWidth="@dimen/number_min_height"
-    android:layout_width="wrap_content" />
+    android:layout_width="match_parent" />

@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NumbersListAdapter extends RecyclerView.Adapter<NumbersListViewHolder> {
 
-    public final static int defaultNumbersCount = 100;
+    public static final int defaultNumbersCount = 100;
+
     private final Fragment fragment;
     private int numbersCount;
 
