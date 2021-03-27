@@ -12,16 +12,16 @@ public class NumbersListAdapter extends RecyclerView.Adapter<NumbersListViewHold
 
     public static final int defaultNumbersCount = 100;
 
-    private final Fragment fragment;
+    private final FragmentNumbersList fragmentNumbersList;
     private int numbersCount;
 
-    NumbersListAdapter(Fragment fragment) {
-        this(fragment, NumbersListAdapter.defaultNumbersCount);
+    NumbersListAdapter(FragmentNumbersList fragmentNumbersList) {
+        this(fragmentNumbersList, NumbersListAdapter.defaultNumbersCount);
     }
 
-    NumbersListAdapter(Fragment fragment, int numbersCount) {
+    NumbersListAdapter(FragmentNumbersList fragmentNumbersList, int numbersCount) {
         super();
-        this.fragment = fragment;
+        this.fragmentNumbersList = fragmentNumbersList;
         this.numbersCount = numbersCount;
     }
 
@@ -30,7 +30,7 @@ public class NumbersListAdapter extends RecyclerView.Adapter<NumbersListViewHold
     public NumbersListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.numbers_list_number,
                 parent, false);
-        return new NumbersListViewHolder(this.fragment, view);
+        return new NumbersListViewHolder(this.fragmentNumbersList, view);
     }
 
     @Override

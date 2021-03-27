@@ -12,10 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Objects;
+
 public class FragmentNumbersList extends Fragment implements View.OnClickListener {
 
+    static final String bundleKeyNumbersCount = "numbersCount";
+    static final String bundleKeyNumber = "number";
+
     private RecyclerView recyclerView = null;
-    private NumbersListAdapter numbersListAdapter = null;
+    private NumbersListAdapter numbersListAdapter;
 
     @Nullable
     @Override
@@ -24,19 +29,16 @@ public class FragmentNumbersList extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.numbers_list, container, false);
 
         this.recyclerView = view.findViewById(R.id.recycler);
-        /*this.recyclerView.setLayoutManager(new GridLayoutManager(inflater.getContext(),
-                getResources().getInteger(R.integer.recycler_span_count)));*/
 
+        this.numbersListAdapter = null;
+        if (savedInstanceState != null) {
+            int numbersCount = savedInstanceState.getInt(FragmentNumbersList.bundleKeyNumbersCount, -1);
+            if (numbersCount != -1) {
+                this.numbersListAdapter = new NumbersListAdapter(this, numbersCount);
+            }
+        }
         if (this.numbersListAdapter == null) {
-            if (savedInstanceState != null) {
-                int numbersCount = savedInstanceState.getInt("numbersCount", -1);
-                if (numbersCount != -1) {
-                    this.numbersListAdapter = new NumbersListAdapter(this, numbersCount);
-                }
-            }
-            if (this.numbersListAdapter == null) {
-                this.numbersListAdapter = new NumbersListAdapter(this);
-            }
+            this.numbersListAdapter = new NumbersListAdapter(this);
         }
 
         this.recyclerView.setAdapter(this.numbersListAdapter);
@@ -50,7 +52,7 @@ public class FragmentNumbersList extends Fragment implements View.OnClickListene
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (this.numbersListAdapter != null) {
-            outState.putInt("numbersCount", this.numbersListAdapter.getItemCount());
+            outState.putInt(FragmentNumbersList.bundleKeyNumbersCount, this.numbersListAdapter.getItemCount());
         }
         super.onSaveInstanceState(outState);
     }
@@ -61,6 +63,18 @@ public class FragmentNumbersList extends Fragment implements View.OnClickListene
             this.numbersListAdapter.addNumber();
             this.recyclerView.scrollToPosition(this.numbersListAdapter.getItemCount() - 1);
         }
+    }
+
+    public void showFragmentNumber(int number) {
+        FragmentNumber fragmentNumber = new FragmentNumber();
+        Bundle fragmentNumberBundle = new Bundle();
+        fragmentNumberBundle.putInt(FragmentNumbersList.bundleKeyNumber, number);
+        fragmentNumber.setArguments(fragmentNumberBundle);
+
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main, fragmentNumber)
+                .addToBackStack(null)
+                .commit();
     }
 
 }
