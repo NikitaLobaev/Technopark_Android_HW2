@@ -5,23 +5,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NumbersListAdapter extends RecyclerView.Adapter<NumbersListViewHolder> {
 
     public static final int defaultNumbersCount = 100;
 
-    private final FragmentNumbersList fragmentNumbersList;
+    private final View.OnClickListener onClickListener;
     private int numbersCount;
 
-    NumbersListAdapter(FragmentNumbersList fragmentNumbersList) {
-        this(fragmentNumbersList, NumbersListAdapter.defaultNumbersCount);
+    NumbersListAdapter(View.OnClickListener onClickListener) {
+        this(onClickListener, NumbersListAdapter.defaultNumbersCount);
     }
 
-    NumbersListAdapter(FragmentNumbersList fragmentNumbersList, int numbersCount) {
+    NumbersListAdapter(View.OnClickListener onClickListener, int numbersCount) {
         super();
-        this.fragmentNumbersList = fragmentNumbersList;
+        this.onClickListener = onClickListener;
         this.numbersCount = numbersCount;
     }
 
@@ -30,7 +29,7 @@ public class NumbersListAdapter extends RecyclerView.Adapter<NumbersListViewHold
     public NumbersListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.numbers_list_number,
                 parent, false);
-        return new NumbersListViewHolder(this.fragmentNumbersList, view);
+        return new NumbersListViewHolder(this.onClickListener, view);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class NumbersListAdapter extends RecyclerView.Adapter<NumbersListViewHold
 
     public void addNumber() {
         this.numbersCount++;
-        notifyItemRangeInserted(this.numbersCount, 1); //notifyDataSetChanged();?
+        notifyItemRangeInserted(this.numbersCount, 1);
     }
 
 }

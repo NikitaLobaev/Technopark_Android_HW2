@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,8 @@ import java.util.Objects;
 
 public class FragmentNumbersList extends Fragment implements View.OnClickListener {
 
-    static final String bundleKeyNumbersCount = "numbersCount";
-    static final String bundleKeyNumber = "number";
+    private static final String bundleKeyNumbersCount = "numbersCount";
+    private static final String bundleKeyNumber = "number";
 
     private RecyclerView recyclerView = null;
     private NumbersListAdapter numbersListAdapter;
@@ -62,19 +63,20 @@ public class FragmentNumbersList extends Fragment implements View.OnClickListene
         if (v.getId() == R.id.add) {
             this.numbersListAdapter.addNumber();
             this.recyclerView.scrollToPosition(this.numbersListAdapter.getItemCount() - 1);
+        } else {
+            TextView textView = (TextView) v;
+            int number = Integer.parseInt(textView.getText().toString());
+
+            FragmentNumber fragmentNumber = new FragmentNumber();
+            Bundle fragmentNumberBundle = new Bundle();
+            fragmentNumberBundle.putInt(FragmentNumbersList.bundleKeyNumber, number);
+            fragmentNumber.setArguments(fragmentNumberBundle);
+
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main, fragmentNumber)
+                    .addToBackStack(null)
+                    .commit();
         }
-    }
-
-    public void showFragmentNumber(int number) {
-        FragmentNumber fragmentNumber = new FragmentNumber();
-        Bundle fragmentNumberBundle = new Bundle();
-        fragmentNumberBundle.putInt(FragmentNumbersList.bundleKeyNumber, number);
-        fragmentNumber.setArguments(fragmentNumberBundle);
-
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main, fragmentNumber)
-                .addToBackStack(null)
-                .commit();
     }
 
 }
